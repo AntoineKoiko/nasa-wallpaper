@@ -2,6 +2,7 @@ import requests
 import os
 import datetime
 import json
+import sys
 
 from dotenv import load_dotenv
 
@@ -30,6 +31,7 @@ def get_apod():
         print(response.status_code, response.text)
     return None
 
+
 def load_nasa_image(img_data):
     date = img_data['date']
     try:
@@ -42,11 +44,17 @@ def load_nasa_image(img_data):
         handler.write(img_data)
     return img_path
 
+
 def set_wallpaper(path):
-    cmd = '/usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark'
+    if sys.platform == 'linux':
+        cmd = '/usr/bin/gsettings set org.gnome.desktop.background picture-uri-dark'
+    else:
+        raise NotImplementedError('OS not supported')
+
     abs_path = os.path.abspath(path)
     print(f'EXEC: {cmd} {abs_path}')
     os.system(f'{cmd} {abs_path}')
+
 
 if __name__ == '__main__':
     apod = get_apod()
