@@ -11,6 +11,7 @@ load_dotenv()
 now = datetime.datetime.now()
 NASA_KEY = os.environ.get('NASA_KEY')
 SET_WALPPAPER = bool(os.environ.get('SET_WALLPAPER', 'False'))
+OUPTUT_DIR = 'pictures'
 
 APOD_URL = 'https://api.nasa.gov/planetary/apod?'
 
@@ -38,7 +39,7 @@ def load_nasa_image(img_data):
         img_url = img_data['hdurl']
     except KeyError:
         img_url = img_data['thumbnail_url']
-    img_path = os.path.join('.', 'pictures', f'{date}.jpg')
+    img_path = os.path.join('.', OUPTUT_DIR, f'{date}.jpg')
     img_data = requests.get(img_url).content
     with open(img_path, 'wb') as handler:
         handler.write(img_data)
