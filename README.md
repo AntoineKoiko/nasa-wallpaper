@@ -60,7 +60,7 @@ Set picture as wallpaper:
 
 - Linux # Tested with ubuntu 22.04
 - Linux: choose between dark and light theme
-- Windows : TDOo
+- Windows : TODO
 - Mac : TODO
 
 ## Cron
