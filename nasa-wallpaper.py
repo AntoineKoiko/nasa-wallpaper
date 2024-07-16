@@ -9,9 +9,13 @@ from dotenv import load_dotenv
 load_dotenv()
 
 now = datetime.datetime.now()
+SET_WALPPAPER = bool(os.environ.get('SET_WALLPAPER', '0'))
 NASA_KEY = os.environ.get('NASA_KEY')
-SET_WALPPAPER = bool(os.environ.get('SET_WALLPAPER', 'False'))
-OUPTUT_DIR = 'pictures'
+# muste be an absolute path e.g. /home/user/Pictures
+OUPTUT_DIR = os.environ.get('OUPTUT_DIR') # need to be created before running the script
+
+if not NASA_KEY or not OUPTUT_DIR:
+    raise ValueError('NASA_KEY or OUPTUT_DIR not set in .env file')
 
 APOD_URL = 'https://api.nasa.gov/planetary/apod?'
 
@@ -39,7 +43,7 @@ def load_nasa_image(img_data):
         img_url = img_data['hdurl']
     except KeyError:
         img_url = img_data['thumbnail_url']
-    img_path = os.path.join('.', OUPTUT_DIR, f'{date}.jpg')
+    img_path = os.path.join(OUPTUT_DIR, f'{date}.jpg')
     img_data = requests.get(img_url).content
     with open(img_path, 'wb') as handler:
         handler.write(img_data)
@@ -52,7 +56,7 @@ def set_wallpaper(path):
     else:
         raise NotImplementedError('OS not supported')
 
-    abs_path = os.path.abspath(path)
+    abs_path = path #os.path.abspath(path)
     print(f'EXEC: {cmd} {abs_path}')
     os.system(f'{cmd} {abs_path}')
 
