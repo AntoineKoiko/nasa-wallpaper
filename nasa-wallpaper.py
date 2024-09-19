@@ -6,6 +6,9 @@ import sys
 
 from dotenv import load_dotenv
 
+
+# APOD == Astronomy Picture of the Day
+
 load_dotenv()
 
 now = datetime.datetime.now()
